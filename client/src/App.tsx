@@ -4,9 +4,7 @@ import {
   /* <GitHubBanner /> */
   Refine,
 } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
 import {
   ErrorComponent,
   notificationProvider,
@@ -60,6 +58,7 @@ axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
 });
 
 function App() {
+
   const authProvider: AuthBindings = {
     login: async ({ credential }: CredentialResponse) => {
       const profileObj = credential ? parseJwt(credential) : null;

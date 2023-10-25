@@ -12,13 +12,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LoginIcon from '@mui/icons-material/Login';
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Tooth Talks Dental Clinic
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -26,7 +27,6 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
@@ -45,17 +45,18 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            backgroundColor: '#FFFF',
+            padding: '30px',
+            borderRadius: '10px',
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
+          <img src={require('../assets/client-logo.png')} alt="Logo" style={{ width: '100px', height: '100px', margin: "auto auto 20px auto" }} />
+          <Typography component="div" variant="h5" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontWeight: 600, color: '#0C6078' }}>Sign Up</span>
+            <LoginIcon sx={{ color: "#B1B1B1" }} />
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -101,31 +102,26 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
+
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#0C6078', textTransform: 'none', '&:hover': { backgroundColor: '#0C6078'} }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link href="/login">
-                  Already have an account? Sign in
+                <Link href="/login"  variant="body2" sx={{ fontSize: '12px'}}>
+                  Already have an account? <span style={{ fontWeight: '600' }}>Sign in</span>
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ mt: 2, mb: 4, color: "#535353", fontSize: "12px" }} />
       </Container>
     </ThemeProvider>
   );

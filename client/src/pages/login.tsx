@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import '../index.css'
+import LoginIcon from '@mui/icons-material/Login';
 
 const customTheme = createTheme({
   typography: {
@@ -23,7 +25,7 @@ function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://mui.com/" >
         Tooth Talks Dental Clinic
       </Link>{' '}
       {new Date().getFullYear()}
@@ -31,9 +33,6 @@ function Copyright(props: any) {
     </Typography>
   );
 }
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 export default function SignIn() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,17 +50,18 @@ export default function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            backgroundColor: '#FFFF',
+            padding: '40px',
+            borderRadius: '10px',
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
+          <img src={require('../assets/client-logo.png')} alt="Logo" style={{ width: '100px', height: '100px', margin: "auto auto 20px auto" }} />
+          <Typography component="div" variant="h5" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontWeight: 600, color: '#0C6078' }}>Login</span>
+            <LoginIcon sx={{ color: "#B1B1B1" }} />
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -84,34 +84,38 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+
+            <Grid container>
+              <Grid item xs sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" size="small" />}
+                  label={<Typography sx={{ color: "#535353", fontSize: '12px', marginRight: '8px' }}>Remember me</Typography>}
+                />
+                <Link href="#" variant="body2" sx={{ fontSize: '12px' }}>
+                  Forgot password?
+                </Link>
+              </Grid>
+            </Grid>
+
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#0C6078', textTransform: 'none', '&:hover': { backgroundColor: '#0C6078'} }}
             >
-              Sign In
+              Login
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container justifyContent="center">
               <Grid item>
-                  {/* Other content */}
-                  <Link href="/signup" variant="body2" sx={{ fontSize: '14px' }}>
-                          {"Don't have an account? Sign Up"}
-                  </Link>
+                <Link href="/signup"  variant="body2" sx={{ fontSize: '12px'}}>
+                Don't have an account? <span style={{ fontWeight: '600' }}>Sign Up</span>
+                </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 2, mb: 4, color: "#535353", fontSize: "12px" }} />
       </Container>
     </ThemeProvider>
   );
