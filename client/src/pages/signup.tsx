@@ -30,13 +30,36 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const userData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+
+    try {
+      const response = await fetch('/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.status === 201) {
+        // User was successfully registered
+        console.log('User registered successfully');
+        // You can add a redirect to the login page or do other actions here
+      } else {
+        // Handle registration errors
+        console.error('Error registering user');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
   };
 
   return (

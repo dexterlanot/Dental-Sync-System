@@ -35,13 +35,38 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const userData = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+
+    try {
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.status === 200) {
+        // User was successfully logged in
+        console.log('Login successful');
+        // You can add a redirect to the dashboard or do other actions here
+      } else if (response.status === 401) {
+        // Invalid credentials
+        console.error('Invalid credentials');
+        // Display a message to the user
+      } else {
+        // Handle other login errors
+        console.error('Error logging in');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
   };
 
   return (
@@ -102,14 +127,14 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: '#0C6078', textTransform: 'none', '&:hover': { backgroundColor: '#0C6078'} }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#0C6078', textTransform: 'none', '&:hover': { backgroundColor: '#0C6078' } }}
             >
               Login
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link href="/signup"  variant="body2" sx={{ fontSize: '12px'}}>
-                Don't have an account? <span style={{ fontWeight: '600' }}>Sign Up</span>
+                <Link href="/signup" variant="body2" sx={{ fontSize: '12px' }}>
+                  Don't have an account? <span style={{ fontWeight: '600' }}>Sign Up</span>
                 </Link>
               </Grid>
             </Grid>
