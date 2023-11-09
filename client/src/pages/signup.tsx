@@ -26,6 +26,10 @@ function Copyright(props: any) {
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
+      <Link color="inherit" href="../admin/adminlogin">
+        <br />
+        Clinic staff <span style={{ fontWeight: '600', color:  "#535353"}}>Proceed here</span>
+      </Link>
     </Typography>
   );
 }
@@ -185,6 +189,8 @@ export default function SignUp() {
                   Already have an account? <span style={{ fontWeight: '600' }}>Sign in</span>
                 </Link>
               </Grid>
+              <br />
+
             </Grid>
           </Box>
         </Box>

@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
+import Admin from '../models/admin.js';
 
 const router = express.Router();
 
@@ -50,6 +51,36 @@ router.post('/login', async (req, res) => {
 
     // User login successful
     res.status(200).json({ message: 'User login successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+//Admin login route
+
+// Login route
+router.post('/adminlogin', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Check if the admin exists with the given email
+    const admin = await Admin.findOne({ username });
+
+    if (!admin) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Verify the password
+    const passwordMatch = await bcrypt.compare(password, admin.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Admin login successful
+    res.status(200).json({ message: 'Admin login successful' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

@@ -31,33 +31,32 @@ function Copyright(props: any) {
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
-
     </Typography>
   );
 }
 
-export default function SignIn() {
+export default function AdminLogin() {
   const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const userData = {
-      email: data.get('email'),
+    const adminData = {
+      email: data.get('username'),
       password: data.get('password'),
     };
 
     try {
-      const response = await fetch('http://localhost:8080/auth/login', {
+      const response = await fetch('http://localhost:8080/auth/adminlogin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(adminData),
       });
 
       if (response.status === 200) {
         console.log('Logged in');
-        navigate('/dashboard');
+        navigate('/admin-dashboard');
       } else if (response.status === 401) {
         // Invalid credentials
         console.error('Invalid credentials');
@@ -87,7 +86,7 @@ export default function SignIn() {
         >
           <img src={require('../assets/client-logo.png')} alt="Logo" style={{ width: '100px', height: '100px', margin: "auto auto 20px auto" }} />
           <Typography component="div" variant="h5" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontWeight: 600, color: '#0C6078' }}>Login</span>
+            <span style={{ fontWeight: 600, color: '#0C6078' }}>Staff Login</span>
             <LoginIcon sx={{ color: "#B1B1B1" }} />
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -95,10 +94,9 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
               autoFocus
             />
             <TextField
@@ -112,7 +110,6 @@ export default function SignIn() {
               autoComplete="current-password"
             />
 
-
             <Button
               type="submit"
               fullWidth
@@ -121,13 +118,6 @@ export default function SignIn() {
             >
               Login
             </Button>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Link href="/signup" variant="body2" sx={{ fontSize: '12px' }}>
-                  Don't have an account? <span style={{ fontWeight: '600' }}>Sign Up</span>
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 2, mb: 4, color: "#535353", fontSize: "12px" }} />
