@@ -55,15 +55,8 @@ export default function SignIn() {
       });
 
       if (response.status === 200) {
-        const userType = await response.json();
-
-        if (userType === 'admin') {
-          console.log('Admin logged in');
-          navigate('/admin-dashboard');
-        } else {
-          console.log('User logged in');
-          navigate('/dashboard');
-        }
+        console.log('Logged in');
+        navigate('/dashboard');
       } else if (response.status === 401) {
         // Invalid credentials
         console.error('Invalid credentials');
@@ -71,7 +64,7 @@ export default function SignIn() {
       } else {
         // Handle other login errors
         console.error('Error logging in');
-      }
+      }      
     } catch (error) {
       console.error('Network error:', error);
     }
