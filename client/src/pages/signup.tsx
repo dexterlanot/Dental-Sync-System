@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginIcon from '@mui/icons-material/Login';
+import { useNavigate } from 'react-router-dom';
 
 
 function Copyright(props: any) {
@@ -30,7 +32,14 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
+
 export default function SignUp() {
+  const navigate = useNavigate();
+
+  // Define state variables for email and password errors
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,27 +50,54 @@ export default function SignUp() {
       password: data.get('password'),
     };
 
-    try {
-      const response = await fetch('http://localhost:8080/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (response.status === 201) {
-        // User was successfully registered
-        console.log('User registered successfully');
-        // You can add a redirect to the login page or do other actions here
-      } else {
-        // Handle registration errors
-        console.error('Error registering user');
-      }
-    } catch (error) {
-      console.error('Network error:', error);
+    // Perform client-side validation
+    if (!userData.email) {
+      // Display an error message for the email field
+      setEmailError(true);
+    } else {
+      setEmailError(false);
     }
-  };
+
+    if (!userData.password) {
+      // Display an error message for the password field
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+
+    // Check if there are validation errors before sending the request
+    if (!emailError && !passwordError) {
+      try {
+        // Send the registration request
+        const response = await fetch('http://localhost:8080/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        if (response.status === 201) {
+          // User was successfully registered
+          console.log('User registered successfully');
+          // Redirect to the login page
+          navigate('/login');
+        } else if (response.status === 400) {
+          // Bad request (e.g., invalid input)
+          console.error('Bad request. Please check your input.');
+        } else if (response.status === 409) {
+          // Conflict (e.g., user with the same email already exists)
+          console.error('User with the same email already exists.');
+          // You can display an error message to the user, e.g., using state
+        } else {
+          // Handle other error cases
+          console.error('Error registering user');
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+      }
+    }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -114,6 +150,7 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                 />
+                {emailError && <div className="error-message">Email is required.</div>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
