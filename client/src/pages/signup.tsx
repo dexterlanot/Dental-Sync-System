@@ -49,7 +49,7 @@ export default function SignUp() {
       email: data.get('email'),
       password: data.get('password'),
     };
-
+  
     // Perform client-side validation
     if (!userData.email) {
       // Display an error message for the email field
@@ -57,16 +57,22 @@ export default function SignUp() {
     } else {
       setEmailError(false);
     }
-
+  
     if (!userData.password) {
       // Display an error message for the password field
       setPasswordError(true);
     } else {
       setPasswordError(false);
     }
-
+  
     // Check if there are validation errors before sending the request
     if (!emailError && !passwordError) {
+      // Check if all input values are empty
+      if (!userData.firstName && !userData.lastName && !userData.email && !userData.password) {
+        console.error('All input values are empty. Please fill in the required fields.');
+        return; // Prevent the registration request
+      }
+  
       try {
         // Send the registration request
         const response = await fetch('http://localhost:8080/auth/signup', {
@@ -76,7 +82,7 @@ export default function SignUp() {
           },
           body: JSON.stringify(userData),
         });
-
+  
         if (response.status === 201) {
           // User was successfully registered
           console.log('User registered successfully');

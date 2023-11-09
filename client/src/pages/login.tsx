@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../index.css'
 import LoginIcon from '@mui/icons-material/Login';
+import { useNavigate } from 'react-router-dom';
 
 const customTheme = createTheme({
   typography: {
@@ -35,6 +36,7 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -53,9 +55,15 @@ export default function SignIn() {
       });
 
       if (response.status === 200) {
-        // User was successfully logged in
-        console.log('Login successful');
-        // You can add a redirect to the dashboard or do other actions here
+        const userType = await response.json();
+
+        if (userType === 'admin') {
+          console.log('Admin logged in');
+          navigate('/admin-dashboard');
+        } else {
+          console.log('User logged in');
+          navigate('/dashboard');
+        }
       } else if (response.status === 401) {
         // Invalid credentials
         console.error('Invalid credentials');
